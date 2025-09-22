@@ -41,12 +41,15 @@ int main(int argc, char **argv){
     while ((opt = getopt_long(argc, argv, "hnvsb::i", long_options, NULL)) != EOF) {
         switch (opt) {
             case 'h':
-                printf("first what to copy then where\n");
-                printf("-s standart-copy\n");
-                printf("-n no-clobber\n");
-                printf("-b block-copy\n");
-                printf("-v version\n");
-                printf("-i info\n");
+                FILE *help_list = fopen("help_list.txt","r");
+                if (!help_list){ /*error with to open file*/
+                    perror("help_list.txt");
+                    exit(EXIT_FAILURE);
+                }
+                int c;
+                while((c = fgetc(help_list)) != EOF)
+                    putchar(c);
+                fclose(help_list);
                 exit(0);
 
             case 'n':

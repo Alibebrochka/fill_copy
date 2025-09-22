@@ -1,0 +1,6 @@
+first what to copy then where
+-s standart-copy
+-n no-clobber
+-b block-copy
+-v version
+-i info
