@@ -37,11 +37,12 @@ int main(int argc, char **argv){
         /*concatination*/
     }
 
+
     /*   setting parameters and configurations in working_list   */
     while ((opt = getopt_long(argc, argv, "hnvsb::i", long_options, NULL)) != EOF) {
         switch (opt) {
             case 'h':
-                FILE *help_list = fopen("help_list.txt","r");
+                FILE *help_list = fopen("./help_list.txt","r");
                 if (!help_list){ /*error with to open file*/
                     perror("help_list.txt");
                     exit(EXIT_FAILURE);
@@ -99,7 +100,9 @@ int main(int argc, char **argv){
         }
     }
     if (cloused_checker && !stoped_copy && (stat(nam_new, &st) == 0)){
-        /* open file */
+
+
+        /*   open file  */
         origin = fopen(nam_origin,"r");
         if (!origin){ /*error with to open file*/
             perror(nam_origin);
@@ -111,15 +114,19 @@ int main(int argc, char **argv){
             exit(EXIT_FAILURE);
         }
 
+
+        /*   main part of execution relative to working_list   */
         for(int i = 0; i < elm_count; ++i){
             switch (working_list[i]) {
+                /*char-by-char copying*/
                 case 's':
-                    int c;
-                    while((c = fgetc(origin)) != EOF)
+                    for(int c; c != EOF; c = fgetc(origin))
                         fputc(c, new);
                     break;
 
+                /*copy with buffer*/
                 case 'b':
+                    /*allocation memory for a buffer from the heap*/
                     char *buff = malloc(sizeof(char) * buffer_size);
                     int nread;
 
@@ -129,6 +136,7 @@ int main(int argc, char **argv){
                             exit(EXIT_FAILURE);
                         }
                     }
+                    free(buff);
                     if (ferror(origin)) {
                         printf("read error\n");
                         exit(EXIT_FAILURE);
